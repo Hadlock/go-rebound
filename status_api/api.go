@@ -6,7 +6,6 @@ import (
 	"net"
 	"net/http"
 	"bytes"
-	"fmt"
 	"io/ioutil"
 )
 
@@ -38,10 +37,7 @@ func dockerContainerListHandler (w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 
-	fmt.Println(dockerSockPath)
-	fmt.Println(r.URL.EscapedPath())
 	dockerClient := newSocketClient(dockerSockPath)
-	
 
 	if resp, err := dockerClient.Get("http:/" + r.URL.EscapedPath()); err != nil {
 		log.Fatal(err)
@@ -50,7 +46,9 @@ func dockerContainerListHandler (w http.ResponseWriter, r *http.Request) {
 			log.Fatal(err)
 		}	else {
 			respBuffer := bytes.NewBuffer(respBody)
-			respBuffer.WriteTo(w)
+			respString := respBuffer.String()
+			fmt.Println(respString)
+			fmt.FPrintln(w, respString)
 		}	
 	}
 }
