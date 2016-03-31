@@ -78,7 +78,11 @@ func TestDockerReturnsCorrectJSON(t *testing.T) {
 }
 
 func TestDockerRejectsNonGET(t *testing.T) {
-	t.Skip()
+	w, req, _ := beforeTest("PUT", "/docker/containers")
+	handler, _ := Handlers().Handler(req)
+	handler.ServeHTTP(w, req)
+
+	testStatusCode(t, http.StatusMethodNotAllowed, w.Code)
 }
 
 func TestBadPatternReturns404(t *testing.T) {

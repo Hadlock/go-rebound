@@ -1,13 +1,49 @@
 package status_api
 
 import (
+	"log"
+	"os"
+	"net"
 	"net/http"
-	"fmt"
+	"bytes"
+	"io/ioutil"
 )
 
+var dockerSockPath string = os.Getenv("DOCKER_SOCKET")
+
+func newFakeDialer(path string) func(string, string) (net.Conn, error) {
+	return func(proto, addr string) (conn net.Conn, err error) {
+		return net.Dial("unix", path)
+	}
+}
+
+func newSocketClient(path string) (*http.Client) {
+	tr := &http.Transport{
+		Dial: newFakeDialer(path),
+	}
+
+	return &http.Client{Transport: tr}	
+}
+
 func dockerContainerListHandler (w http.ResponseWriter, r *http.Request) {
+	if r.Method != "GET" {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
 	w.Header().Set("Content-Type", "application/json")
-	fmt.Fprintf(w, "Hello, world")
+
+	dockerClient := newSocketClient(dockerSockPath)
+
+	if resp, err := dockerClient.Get("http:/" + r.URL.EscapedPath()); err != nil {
+		log.Fatal(err)
+	} else {
+		if respBody, err := ioutil.ReadAll(resp.Body); err != nil {
+			log.Fatal(err)
+		}	else {
+			respBuffer := bytes.NewBuffer(respBody)
+			respBuffer.WriteTo(w)
+		}	
+	}
 }
 
 func Handlers () *http.ServeMux {
