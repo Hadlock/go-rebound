@@ -1,36 +1,17 @@
 package status_api
 
 import (
-	"log"
 	"os"
 	"net"
 	"net/http"
-	"bytes"
+	"log"
 	"fmt"
-	"io/ioutil"
+	"bufio"
 )
 
 var dockerSockPath string = os.Getenv("DOCKER_SOCKET")
 
-func newFakeDialer(path string) func(string, string) (net.Conn, error) {
-	return func(proto, addr string) (conn net.Conn, err error) {
-		return net.Dial("unix", path)
-	}
-}
-
-func newSocketClient(path string) (*http.Client) {
-	tr := &http.Transport{
-		Dial: newFakeDialer(path),
-	}
-
-	return &http.Client{Transport: tr}	
-}
-
 func dockerContainerListHandler (w http.ResponseWriter, r *http.Request) {
-	
-	if dockerSockPath == "" {
-		dockerSockPath = "/run/docker.sock"
-	}
 	
 	if r.Method != "GET" {
 		w.WriteHeader(http.StatusMethodNotAllowed)
@@ -38,19 +19,20 @@ func dockerContainerListHandler (w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 
-	dockerClient := newSocketClient(dockerSockPath)
+	if dockerSockPath == "" {
+		dockerSockPath = "/run/docker.sock"
+	}
 
-	if resp, err := dockerClient.Get("http:/containers/json"); err != nil {
-		log.Fatal(err)
+	conn, err := net.Dial("unix", dockerSockPath)
+	if err != nil {
+		log.Print(err)
 	} else {
-		if respBody, err := ioutil.ReadAll(resp.Body); err != nil {
-			log.Fatal(err)
-		}	else {
-			respBuffer := bytes.NewBuffer(respBody)
-			respString := respBuffer.String()
-			fmt.Println(respString)
-			fmt.Fprintln(w, respString)
-		}	
+		fmt.Fprintf(conn, "GET /containers/json HTTP/1.0\r\n\r\n")
+		if dockerResponse, err := bufio.NewReader(conn).ReadSlice('\n'); err != nil {
+			log.Print(err)
+		} else {
+			w.Write(dockerResponse)
+		}
 	}
 }
 
