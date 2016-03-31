@@ -61,7 +61,7 @@ func TestDockerReturns200(t *testing.T) {
 	testStatusCode(t, http.StatusOK, w.Code)	
 }
 
-func TestDockerReturnsJSON(t *testing.T) {
+func TestDockerReturnsJSONHeader(t *testing.T) {
 	w, req, _ := beforeTest("GET", "/docker/containers")
 	handler, _ := Handlers().Handler(req)
 	handler.ServeHTTP(w, req)
@@ -82,5 +82,8 @@ func TestDockerRejectsNonGET(t *testing.T) {
 }
 
 func TestBadPatternReturns404(t *testing.T) {
-	t.Skip()
+	w, req, _ := beforeTest("GET", "/harbles")
+	handler, _ := Handlers().Handler(req)
+	handler.ServeHTTP(w, req)
+	testStatusCode(t, http.StatusNotFound, w.Code)
 }
