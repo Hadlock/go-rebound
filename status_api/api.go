@@ -40,7 +40,7 @@ func dockerContainerListHandler (w http.ResponseWriter, r *http.Request) {
 
 	dockerClient := newSocketClient(dockerSockPath)
 
-	if resp, err := dockerClient.Get("http:/" + r.URL.EscapedPath()); err != nil {
+	if resp, err := dockerClient.Get("http://containers/json"); err != nil {
 		log.Fatal(err)
 	} else {
 		if respBody, err := ioutil.ReadAll(resp.Body); err != nil {
