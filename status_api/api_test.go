@@ -14,10 +14,6 @@ func beforeTest(method string, url string) (*httptest.ResponseRecorder, *http.Re
 }
 
 
-// I can't figure out how to do content testing;
-// although the server works, when I test it I only get
-// 301s and 404s. Have to try to test this indirectly.
-// Should ask somebody.
 func TestHomeUsesCorrectPattern(t *testing.T) {
 	_, req, _ := beforeTest("GET", "/index.html")
 
