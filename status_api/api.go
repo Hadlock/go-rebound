@@ -28,10 +28,9 @@ func dockerContainerListHandler (w http.ResponseWriter, r *http.Request) {
 		log.Print(err)
 	} else {
 		fmt.Fprintf(conn, "GET /containers/json HTTP/1.0\r\n\r\n")
-		if dockerResponse, err := bufio.NewReader(conn).ReadSlice('\n'); err != nil {
-			log.Print(err)
-		} else {
-			w.Write(dockerResponse)
+		responseScanner := bufio.NewScanner(conn)
+		for responseScanner.Scan() {
+			fmt.Fprintf(w, responseScanner.Text())
 		}
 	}
 }
