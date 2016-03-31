@@ -14,9 +14,10 @@ RestartSec=30
 KillMode=none
 ExecStartPre=-/usr/bin/docker stop cs-appstatus
 ExecStartPre=-/usr/bin/docker rm cs-app-status
-ExecStart=/usr/bin/docker run -e HOST_IP=${COREOS_PRIVATE_IPV4} \
-  -v /var/run/docker.sock:/run/docker.sock \
+ExecStart=/usr/bin/docker run -v /var/run/docker.sock:/run/docker.sock \
 	-v /var/run/fleet.sock:/run/fleet.sock \
+	-e DOCKER_SOCKET=/run/docker.sock \
+	-e FLEET_SOCKET=/run/fleet.sock \
 	-p 6000:8080 \
 	--name cs-appstatus \
 	registry.scriptrock.org/scriptrock/cs-appstatus
