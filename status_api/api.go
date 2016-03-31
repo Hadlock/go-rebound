@@ -49,7 +49,7 @@ func dockerContainerListHandler (w http.ResponseWriter, r *http.Request) {
 			respBuffer := bytes.NewBuffer(respBody)
 			respString := respBuffer.String()
 			fmt.Println(respString)
-			fmt.FPrintln(w, respString)
+			fmt.Fprintln(w, respString)
 		}	
 	}
 }
