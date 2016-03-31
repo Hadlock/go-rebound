@@ -1,0 +1,23 @@
+[Unit]
+Description=Customer Success diagnostic information visualization tool
+Requires=etcd2.service
+Requires=docker.service
+After=etcd2.service
+After=docker.service
+After=network.service
+After=registry.service
+
+[Service]
+EnvironmentFile=/etc/environment
+Restart=always
+RestartSec=30
+KillMode=none
+ExecStartPre=-/usr/bin/docker stop cs-appstatus
+ExecStartPre=-/usr/bin/docker rm cs-app-status
+ExecStart=/usr/bin/docker run -e HOST_IP=${COREOS_PRIVATE_IPV4} \
+  -v /var/run/docker.sock:/run/docker.sock \
+	-v /var/run/fleet.sock:/run/fleet.sock \
+	-p 6000:8080 \
+	--name cs-appstatus \
+	registry.scriptrock.org/scriptrock/cs-appstatus
+ExecStop=/usr/bin/docker stop cs-appstatus
