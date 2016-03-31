@@ -13,6 +13,17 @@ func beforeTest(method string, url string) (*httptest.ResponseRecorder, *http.Re
 	return w, req, err
 }
 
+func testStringPattern(t *testing.T, expected string, actual string) {
+	if expected != actual {
+		t.Errorf("Pattern handler should be \"%s\", was \"%s\"", expected, actual)
+	}
+}
+
+func testStatusCode(t *testing.T, expected int, actual int) {
+	if expected != actual {
+		t.Errorf("Status code should be %v, was %v", expected, actual)
+	}
+}
 
 func TestHomeUsesCorrectPattern(t *testing.T) {
 	_, req, _ := beforeTest("GET", "/index.html")
@@ -20,9 +31,7 @@ func TestHomeUsesCorrectPattern(t *testing.T) {
 	_, pattern := Handlers().Handler(req)
 
 	// Handler pattern should be "/"
-	if pattern != "/" {
-		t.Errorf("Pattern handler should be \"\\\", was %s", pattern)
-	}
+	testStringPattern(t, "/", pattern)
 }
 
 func TestHomeRedirects(t *testing.T) {	
@@ -33,7 +42,45 @@ func TestHomeRedirects(t *testing.T) {
 	handler.ServeHTTP(w, req)
 
 	// Root returns a redirect for directory indexes
-	if w.Code != http.StatusMovedPermanently {
-		t.Errorf("Home page didn't return %v, returned %v", http.StatusMovedPermanently, w.Code)
-	}	
+	testStatusCode(t, http.StatusMovedPermanently, w.Code)
+}
+
+func TestDockerUsesCorrectPattern(t *testing.T) {
+	_, req, _ := beforeTest("GET", "/docker/containers")
+	_, pattern := Handlers().Handler(req)
+
+	testStringPattern(t, "/docker/containers", pattern)
+}
+
+func TestDockerReturns200(t *testing.T) {
+	w, req, _ := beforeTest("GET", "/docker/containers")
+
+	handler, _ := Handlers().Handler(req)
+	handler.ServeHTTP(w, req)
+
+	testStatusCode(t, http.StatusOK, w.Code)	
+}
+
+func TestDockerReturnsJSON(t *testing.T) {
+	w, req, _ := beforeTest("GET", "/docker/containers")
+	handler, _ := Handlers().Handler(req)
+	handler.ServeHTTP(w, req)
+
+	contentType := w.Header().Get("Content-Type")
+	expected := "application/json"
+	if contentType != expected {
+		t.Errorf("Incorrect contentType, should be \"%s\", was \"%s\"", expected, contentType)
+	}
+}
+
+func TestDockerReturnsCorrectJSON(t *testing.T) {
+	t.Skip()
+}
+
+func TestDockerRejectsNonGET(t *testing.T) {
+	t.Skip()
+}
+
+func TestBadPatternReturns404(t *testing.T) {
+	t.Skip()
 }
