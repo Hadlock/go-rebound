@@ -6,6 +6,7 @@ import (
 	"net"
 	"net/http"
 	"bytes"
+	"fmt"
 	"io/ioutil"
 )
 
@@ -26,13 +27,21 @@ func newSocketClient(path string) (*http.Client) {
 }
 
 func dockerContainerListHandler (w http.ResponseWriter, r *http.Request) {
+	
+	if dockerSockPath == "" {
+		dockerSockPath = "/run/docker.sock"
+	}
+	
 	if r.Method != "GET" {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
 
+	fmt.Println(dockerSockPath)
+	fmt.Println(r.URL.EscapedPath())
 	dockerClient := newSocketClient(dockerSockPath)
+	
 
 	if resp, err := dockerClient.Get("http:/" + r.URL.EscapedPath()); err != nil {
 		log.Fatal(err)
