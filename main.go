@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/ScriptRock/go-appstatus/status_api"
+	"github.com/zjacreman/go-appstatus/status_api"
 	"net/http"
 	"log"
 )
