@@ -25,15 +25,28 @@
 						<h3 class="panel-title">Container status</h3>
 					</div>
 					<div class="panel-body">
+							<table id="docker-table" class="table table-striped hidden">
+									<thead>
+											<tr>
+													<th>ID</th>
+													<th>Name</th>
+													<th>Image</th>
+													<th>Status</th>
+													<th>Time</th>
+											</tr>
+									</thead>
+							</table>
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div id="fleet-units" class="panel panel-primary">
 					<div class="panel-heading">
-						<h3 class="panel-title">Fleet unit status</h3>
+						<h3 class="panel-title">Unit status</h3>
 					</div>
 					<div class="panel-body">
+							<table id="fleet-table" class="table table-striped hidden">
+							</table>
 					</div>
 				</div>
 			</div>
@@ -43,8 +56,17 @@
 		<script src="assets/js/appstatus.js"></script>
 		<script>
 		 $(document).ready(function () {
-				 $.get("/docker/containers", "", populateDockerStats, "json")
-				 $.get("/fleet/units", "", populateFleetUnits, "json")
+				 $.getJSON("/docker/containers", populateDockerStats).
+					 fail(function () {
+							 $("#docker-containers .panel-body").
+																			append("<p>Unable to communicate with the container API.</p>");
+					 });
+				 
+				 $.getJSON("/fleet/units", populateFleetUnits).
+					 fail(function () {
+							 $("#fleet-units .panel-body").
+																append("<p>Unable to communicate with the units API.</p>")
+					 });
 			})
 		</script>		
 	</body>	
