@@ -31,5 +31,5 @@ function populateDockerStats(data) {
 }
 
 function populateFleetUnits(data) {
-		$("#fleet-failure).remove();
+		$("#fleet-failure").remove();
 }
