@@ -5,7 +5,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
-		<title>UpGuard Appliance Diagnostics</title>
+		<title>UpGuard Appliance Status</title>
 
 		<link href="assets/css/bootstrap.min.css" rel="stylesheet">
 		<link href="assets/css/bootstrap-theme.min.css" rel="stylesheet">		
@@ -14,7 +14,7 @@
 		<nav class="navbar navbar-inverse navbar-static-top">
 			<div class="container">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="#">UpGuard Appliance Diagnostics</a>
+					<a class="navbar-brand" href="#">UpGuard Appliance Status</a>
 				</div>
 			</div>
 		</nav>
@@ -40,6 +40,12 @@
 		</div>
 
 		<script src="assets/js/jquery-1.12.2.min.js"></script>
-		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="assets/js/appstatus.js"></script>
+		<script>
+		 $(document).ready(function () {
+				 $.get("/docker/containers", "", populateDockerStats, "json")
+				 $.get("/fleet/units", "", populateFleetUnits, "json")
+			})
+		</script>		
 	</body>	
 </html>
