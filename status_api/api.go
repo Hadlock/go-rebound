@@ -30,7 +30,7 @@ func dockerContainerListHandler (w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(conn, "GET /containers/json HTTP/1.0\r\n\r\n")
 		responseScanner := bufio.NewScanner(conn)
 		for responseScanner.Scan() {
-			fmt.Fprintf(w, responseScanner.Text())
+			fmt.Fprintln(w, responseScanner.Text())
 		}
 	}
 }
