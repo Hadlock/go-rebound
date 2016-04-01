@@ -25,6 +25,13 @@ func testStatusCode(t *testing.T, expected int, actual int) {
 	}
 }
 
+func TestBadPatternReturns404(t *testing.T) {
+	w, req, _ := beforeTest("GET", "/harbles")
+	handler, _ := Handlers().Handler(req)
+	handler.ServeHTTP(w, req)
+	testStatusCode(t, http.StatusNotFound, w.Code)
+}
+
 func TestHomeUsesCorrectPattern(t *testing.T) {
 	_, req, _ := beforeTest("GET", "/index.html")
 
@@ -74,6 +81,8 @@ func TestDockerReturnsJSONHeader(t *testing.T) {
 }
 
 func TestDockerReturnsCorrectJSON(t *testing.T) {
+	// I am going to have to refactor extensively for dependency
+	// injection in order to make this part testable, I think.
 	t.Skip()
 }
 
@@ -85,9 +94,3 @@ func TestDockerRejectsNonGET(t *testing.T) {
 	testStatusCode(t, http.StatusMethodNotAllowed, w.Code)
 }
 
-func TestBadPatternReturns404(t *testing.T) {
-	w, req, _ := beforeTest("GET", "/harbles")
-	handler, _ := Handlers().Handler(req)
-	handler.ServeHTTP(w, req)
-	testStatusCode(t, http.StatusNotFound, w.Code)
-}
