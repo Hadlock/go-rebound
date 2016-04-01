@@ -8,18 +8,38 @@
 		<title>UpGuard Appliance Diagnostics</title>
 
 		<link href="assets/css/bootstrap.min.css" rel="stylesheet">
-		<link href="assets/css/bootstrap-theme.min.css" rel="stylesheet">
-		
-		<script src="assets/js/jquery-1.12.2.min.js"></script>
-		<script src="assets/js/bootstrap.min.js"></script>
+		<link href="assets/css/bootstrap-theme.min.css" rel="stylesheet">		
 	</head>
 	<body role="application">
-		<nav class="navbar navbar-inverse navbar-fixed-top">
+		<nav class="navbar navbar-inverse navbar-static-top">
 			<div class="container">
 				<div class="navbar-header">
 					<a class="navbar-brand" href="#">UpGuard Appliance Diagnostics</a>
 				</div>
 			</div>
 		</nav>
+		<div class="container" role="main">
+			<div class="row">
+				<div id="docker-containers" class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">Container status</h3>
+					</div>
+					<div class="panel-body">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div id="fleet-units" class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">Fleet unit status</h3>
+					</div>
+					<div class="panel-body">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="assets/js/jquery-1.12.2.min.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
 	</body>	
 </html>
