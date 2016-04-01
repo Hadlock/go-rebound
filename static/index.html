@@ -59,13 +59,13 @@
 				 $.getJSON("/docker/containers", populateDockerStats).
 					 fail(function () {
 							 $("#docker-containers .panel-body").
-																			append("<p>Unable to communicate with the container API.</p>");
+																			append('<div id="docker-failure" class="alert alert-warning">Unable to communicate with the container API.</p>');
 					 });
 				 
 				 $.getJSON("/fleet/units", populateFleetUnits).
 					 fail(function () {
 							 $("#fleet-units .panel-body").
-																append("<p>Unable to communicate with the units API.</p>")
+																append('<div id="fleet-failure" class="alert alert-warning">Unable to communicate with the units API.</p>')
 					 });
 			})
 		</script>		

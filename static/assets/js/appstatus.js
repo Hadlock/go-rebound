@@ -5,7 +5,9 @@
  */
 
 function populateDockerStats(data) {
-		var table = $('#docker-table');
+		$("#docker-failure").remove();
+
+		var table = $('#docker-table');		
 
 		function newTd (value) {
 				return $(document.createElement('td')).append(value);
@@ -25,8 +27,9 @@ function populateDockerStats(data) {
 										 .append(newTd(status))
 										 .append(newTd(time)))
 		});
-		table.show();
+		table.removeClass("hidden");
 }
 
 function populateFleetUnits(data) {
+		$("#fleet-failure).remove();
 }
