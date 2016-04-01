@@ -6,10 +6,9 @@
 
 function populateDockerStats(data) {
 		var table = $('#docker-table');
-		var create = document.createElement
 
 		function newTd (value) {
-				return $(create('td')).append(value);
+				return $(document.createElement('td')).append(value);
 		}
 		
 		data.forEach(function (v, i, data) {
@@ -19,7 +18,7 @@ function populateDockerStats(data) {
 						status = v["Status"].split(" ")[0],
 						time = v["Status"].split(" ").slice(1).join(" ");
 				
-				table.append($(create('tr'))
+				table.append($(document.createElement('tr'))
 										 .append(newTd(id))
 										 .append(newTd(name))
 										 .append(newTd(image))
