@@ -9,6 +9,7 @@ engineers to go to the command line.
 
 ** TODO
 
+	* Add refresh buttons for the individual data sections
 	* Angularize the front end
 	* Allow deeper dives into specific unit and container process details
 	* Refactor for dependency injection, better testing
