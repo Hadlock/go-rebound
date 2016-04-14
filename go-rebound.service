@@ -12,8 +12,9 @@ EnvironmentFile=/etc/environment
 Restart=always
 RestartSec=30
 KillMode=none
-ExecStartPre=-/usr/bin/docker stop go-rebound
+ExecStartPre=-/usr/bin/docker kill go-rebound
 ExecStartPre=-/usr/bin/docker rm go-rebound
+ExecStartPre=-/usr/bin/docker pull registry.scriptrock.org/scriptrock/go-rebound
 ExecStart=/usr/bin/docker run -v /var/run/docker.sock:/run/docker.sock \
 	-v /var/run/fleet.sock:/run/fleet.sock \
 	-e DOCKER_SOCKET=/run/docker.sock \

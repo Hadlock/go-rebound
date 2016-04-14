@@ -29,7 +29,7 @@ func main() {
 		}
 	}()
 	
-	log.Info("Hello World")
+	log.Warning("Hello World")
 	
 	// le web server
 	log.Fatal(http.ListenAndServe(":8080", status_api.Handlers()))
