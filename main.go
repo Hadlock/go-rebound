@@ -14,7 +14,7 @@ import (
 
 func main() {
 	// redirect stdout into syslog
-	oldStdout := os.Stdout
+	//oldStdout := os.Stdout
 	r, w, err := os.Pipe()
 	if err != nil {
 		log.Fatal(err)
