@@ -4,7 +4,6 @@ import (
 	"github.com/hadlock/go-rebound/status_api"
 	"github.com/hadlock/go-rebound/log"
 	"net/http"
-	"log"
 	"bufio"			//for logs to container
 	"os"			//for logs to container
 	
