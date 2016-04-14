@@ -1,18 +1,17 @@
-* CS-Appstatus
-Zakk Acreman <zakk.acreman@upguard.com>
+* go-rebound
+Chad Hedstrom <chad.hedstrom@upguard.com>
 
 ** What
 
-This is a little containerizable web application for exposing
-diagnostic information about UpGuard appliances without requiring CS
-engineers to go to the command line.
+This is a little containerizable web application for 
+performing internal resiliency testing
 
 ** TODO
 
-	* Add refresh buttons for the individual data sections
-	* Angularize the front end
-	* Allow deeper dives into specific unit and container process details
-	* Refactor for dependency injection, better testing
-	* Add an authentication system 
-	* Add the ability to make changes to a running appliance, eg
-      restart a unit
+	* Stop and restart an org of services
+    * Randomly force kill any one docker container
+    * Randomly force kill docker container on a timer
+    * Monitor status of services before and after fkill
+    * Write logs to a file
+    * View logs from HTML front end
+    * Graph per container type over time

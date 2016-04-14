@@ -1,5 +1,5 @@
 FROM golang:1.5-onbuild
-MAINTAINER Zakk Acreman <zakk.acreman@upguard.com>
+MAINTAINER Chad Hedstrom <chad.hedstrom@upguard.com>
 EXPOSE 8080
 
 

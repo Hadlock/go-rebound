@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/zjacreman/go-appstatus/status_api"
+	"github.com/hadlock/go-rebound/status_api"
 	"net/http"
 	"log"
 )
