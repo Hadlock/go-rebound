@@ -9,20 +9,26 @@ import (
 	"bufio"
 )
 
+//set dockerSockPath from environment
 var dockerSockPath string = os.Getenv("DOCKER_SOCKET")
 
 func dockerContainerListHandler (w http.ResponseWriter, r *http.Request) {
 	
+    // if http request is not GET
 	if r.Method != "GET" {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
+    
+    //write header content
 	w.Header().Set("Content-Type", "application/json")
-
+    
+    //if dockerSockPath is empty set to this default
 	if dockerSockPath == "" {
 		dockerSockPath = "/run/docker.sock"
 	}
-
+    
+    
 	conn, err := net.Dial("unix", dockerSockPath)
 	if err != nil {
 		log.Print(err)
