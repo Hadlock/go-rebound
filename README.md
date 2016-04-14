@@ -6,6 +6,8 @@ Chad Hedstrom <chad.hedstrom@upguard.com>
 This is a little containerizable web application for 
 performing internal resiliency testing
 
+Forked from go-appstatus by Zakk Acreman
+
 ** TODO
 
 	* Stop and restart an org of services
