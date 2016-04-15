@@ -13,7 +13,7 @@ import (
 var dockerSockPath string = os.Getenv("DOCKER_SOCKET")
 
 func dockerContainerListHandler (w http.ResponseWriter, r *http.Request) {
-	log.Printf("dockerContainerListHandler\n")
+	log.Printf("dockerContainerListHandler")
     // if http request is not GET
 	if r.Method != "GET" {
 		w.WriteHeader(http.StatusMethodNotAllowed)
@@ -46,7 +46,7 @@ func dockerContainerListHandler (w http.ResponseWriter, r *http.Request) {
 }
 
 func Handlers () *http.ServeMux {
-	log.Printf("Handlers\n")
+	log.Printf("Handlers")
 	r := http.NewServeMux()
 	r.HandleFunc("/docker/containers", dockerContainerListHandler)
 	r.Handle("/", http.FileServer(http.Dir("static")))
